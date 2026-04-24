@@ -1,0 +1,40 @@
+# Claude 本地配置
+.claude/
+.claude/settings.local.json
+
+# 临时解压/解析文件
+source/docx_extracted/
+**/docx_extracted/
+
+# Node / Electron 后续产物
+node_modules/
+dist/
+out/
+build/
+release/
+*.exe
+
+# 环境变量与密钥
+.env
+.env.local
+*.key
+secret.*
+config.local.*
+
+# 本地数据库与数据
+*.db
+*.sqlite
+*.sqlite3
+data/
+backups/
+
+# 日志与缓存
+*.log
+*.tmp
+*.cache
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
