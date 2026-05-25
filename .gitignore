@@ -12,6 +12,9 @@ dist/
 out/
 build/
 release/
+coverage/
+*.tsbuildinfo
+.eslintcache
 *.exe
 
 # 环境变量与密钥
