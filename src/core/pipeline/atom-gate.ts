@@ -1,17 +1,13 @@
-import type { PerformanceAtom } from '../domain/models'
+import type { CalculationInputCandidate, CandidateIssue } from '../domain/models'
 
 export interface AtomGateDecision {
   accepted: boolean
-  reason?: 'PENDING_MAPPING' | 'PENDING_REVERSAL_LINK'
+  reason?: CandidateIssue
 }
 
-export function evaluateAtomForCalculation(atom: PerformanceAtom): AtomGateDecision {
-  if (atom.processingState === 'PENDING_MAPPING') {
-    return { accepted: false, reason: 'PENDING_MAPPING' }
-  }
-
-  if (atom.processingState === 'PENDING_REVERSAL_LINK') {
-    return { accepted: false, reason: 'PENDING_REVERSAL_LINK' }
+export function evaluateAtomForCalculation(input: CalculationInputCandidate): AtomGateDecision {
+  if ('issue' in input) {
+    return { accepted: false, reason: input.issue }
   }
 
   return { accepted: true }

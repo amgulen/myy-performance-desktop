@@ -1,11 +1,5 @@
 export type SourceType = 'ABC' | 'EXCEL' | 'MANUAL'
 
-export type AtomProcessingState =
-  | 'READY'
-  | 'REVERSAL_READY'
-  | 'PENDING_MAPPING'
-  | 'PENDING_REVERSAL_LINK'
-
 export type RuleType =
   | 'FIXED_PERCENTAGE'
   | 'DYNAMIC_POINTS'
@@ -24,7 +18,7 @@ export interface SourceTrace {
   originalLineNo?: string
 }
 
-export interface PerformanceAtom {
+interface PerformanceAtomBase {
   id: string
   staffId: string
   departmentId: string
@@ -35,10 +29,29 @@ export interface PerformanceAtom {
   amount: string
   occurredAt: string
   periodId: string
-  processingState: AtomProcessingState
-  reversalOfAtomId?: string
   trace: SourceTrace
 }
+
+export interface BusinessPerformanceAtom extends PerformanceAtomBase {
+  kind: 'BUSINESS'
+}
+
+export interface ReversalPerformanceAtom extends PerformanceAtomBase {
+  kind: 'REVERSAL'
+  reversalOfAtomId: string
+}
+
+export type PerformanceAtom = BusinessPerformanceAtom | ReversalPerformanceAtom
+
+export type CandidateIssue = 'PENDING_MAPPING' | 'PENDING_REVERSAL_LINK'
+
+export interface PerformanceAtomCandidate {
+  id: string
+  issue: CandidateIssue
+  trace: SourceTrace
+}
+
+export type CalculationInputCandidate = PerformanceAtom | PerformanceAtomCandidate
 
 export interface RuleVersion {
   id: string
