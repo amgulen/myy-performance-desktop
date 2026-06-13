@@ -1,5 +1,17 @@
 import { join } from 'node:path'
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
+import { createAbcQueryService } from '../application/abc/abc-query-service'
+import { createRealAbcClient } from '../application/abc/real-abc-client'
+
+const abcQueryService = createAbcQueryService(createRealAbcClient())
+
+ipcMain.handle('abc:test-connection', (_event, config) => {
+  return abcQueryService.testConnection(config)
+})
+
+ipcMain.handle('abc:query', (_event, request) => {
+  return abcQueryService.query(request)
+})
 
 function createMainWindow(): BrowserWindow {
   const window = new BrowserWindow({
